@@ -6,6 +6,9 @@ text.clean = function(corpus, mystopwords= NA)                  # text data
   if (!require(tidytext)) {install.packages("tidytext")}
   if (!require(stringr)) {install.packages("stringr")}
   
+  require(tidytext)
+  require((stringr)
+  
   corpus  =  gsub("<.*?>", " ", corpus)               # regex for removing HTML tags
   corpus  =  iconv(corpus, "latin1", "ASCII", sub="") # Keep only ASCII characters
   corpus  =  gsub("[^[:alnum:]]", " ", corpus)        # keep only alpha numeric 
@@ -49,6 +52,11 @@ build_dtm<-function(x,
   if (!require(magrittr)) {install.packages("magrittr")}
   if (!require(dplyr)) {install.packages("dplyr")}
   if (!require(tibble)) {install.packages("tibble")}
+  
+  require(magrittr)
+  require(dplyr)
+  require(tibble)
+  require(tm)
   textdf = data_frame(text = x) # yields length(x) x1 tibble. i.e., each doc = 1 row here.
   
   ### create doc id and group_by it
@@ -100,6 +108,9 @@ display_graphics <- function(dtm, #Document term matrix
   
   if (!require(wordcloud)) {install.packages("wordcloud")}
   if (!require(ggplot2)) {install.packages("ggplot2")}
+  
+  require(wordcloud)
+  require(ggplot2)
   
   #-----------------------------------------------------------#
   # Wordcloud            #
