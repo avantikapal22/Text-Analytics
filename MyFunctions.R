@@ -10,7 +10,6 @@
   library(wordcloud)
   library(ggplot2)
   library(magrittr)
-  library(dplyr)
   library(tibble)
   library(tidytext)
   library(stringr)
