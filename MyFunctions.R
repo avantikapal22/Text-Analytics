@@ -7,7 +7,7 @@ text.clean = function(corpus, mystopwords= NA)                  # text data
   if (!require(stringr)) {install.packages("stringr")}
   
   require(tidytext)
-  require((stringr)
+  require(stringr)
   
   corpus  =  gsub("<.*?>", " ", corpus)               # regex for removing HTML tags
   corpus  =  iconv(corpus, "latin1", "ASCII", sub="") # Keep only ASCII characters
