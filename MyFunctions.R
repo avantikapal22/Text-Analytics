@@ -1,13 +1,25 @@
 
+  if (!require(tidytext)) {install.packages("tidytext")}
+  if (!require(stringr)) {install.packages("stringr")}
+  if (!require(magrittr)) {install.packages("magrittr")}
+  if (!require(dplyr)) {install.packages("dplyr")}
+  if (!require(tibble)) {install.packages("tibble")}
+  if (!require(wordcloud)) {install.packages("wordcloud")}
+  if (!require(ggplot2)) {install.packages("ggplot2")}
+  
+  library(wordcloud)
+  library(ggplot2)
+  library(magrittr)
+  library(dplyr)
+  library(tibble)
+  library(tidytext)
+  library(stringr)
+
 #  Function 1: Text Cleaning
 
 text.clean = function(corpus, mystopwords= NA)                  # text data
 {
-  if (!require(tidytext)) {install.packages("tidytext")}
-  if (!require(stringr)) {install.packages("stringr")}
-  
-  library(tidytext)
-  library(stringr)
+
   
   corpus  =  gsub("<.*?>", " ", corpus)               # regex for removing HTML tags
   corpus  =  iconv(corpus, "latin1", "ASCII", sub="") # Keep only ASCII characters
@@ -49,13 +61,7 @@ build_dtm<-function(x,
                     n = 1 # dimension of ngram 
 )
 {
-  if (!require(magrittr)) {install.packages("magrittr")}
-  if (!require(dplyr)) {install.packages("dplyr")}
-  if (!require(tibble)) {install.packages("tibble")}
-  
-  library(magrittr)
-  library(dplyr)
-  library(tibble)
+
 
   textdf = data_frame(text = x) # yields length(x) x1 tibble. i.e., each doc = 1 row here.
   
@@ -105,12 +111,7 @@ display_graphics <- function(dtm, #Document term matrix
 )   # max no. of connections  
 {        
   
-  
-  if (!require(wordcloud)) {install.packages("wordcloud")}
-  if (!require(ggplot2)) {install.packages("ggplot2")}
-  
-  library(wordcloud)
-  library(ggplot2)
+ 
   
   #-----------------------------------------------------------#
   # Wordcloud            #
