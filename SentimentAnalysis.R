@@ -10,7 +10,8 @@ require(dplyr)
 
 # Sentiment Analysis using Bing
 
-senti_bing<- function(corpus){
+
+senti_bing<-function(corpus){
   
   textdf = data_frame(text = corpus) # converting text data into dataframe  
   
@@ -18,13 +19,16 @@ senti_bing<- function(corpus){
     mutate(Doc_No = row_number()) %>%   # build line num variable
     ungroup() %>%
     unnest_tokens(word, text) %>%   #Unnesting in word tokens
-    inner_join(get_sentiments("bing")) %>%  #  merging with sentiments in bing
-    count(sentiment, index = Doc_No %/% 1, sort = FALSE) 
+    inner_join(get_sentiments("bing"))  #  merging with sentiments in nrc
+   
+   senti_count<-senti%>% count(sentiment, index = Doc_No %/% 1, sort = FALSE) 
   
-  senti_df = data.frame(senti %>% spread(sentiment, n, fill = 0))  #reshaping by sentiments
+  # senti_df = data.frame(senti_count %>% spread(sentiment, n, fill = 0))  #reshaping by sentiments
   
-  return(senti)
-} # Function ends
+  return(list(senti, senti_count))  # 1 . returns (words and their corresponding sentiment in senti
+                                    # 2. Count of sentimentsby Document
+}
+# Function ends
 
 
 # Sentiment Analysis using nrc
