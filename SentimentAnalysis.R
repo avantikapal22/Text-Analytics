@@ -19,7 +19,7 @@ senti_bing<-function(corpus){
     mutate(Doc_No = row_number()) %>%   # build line num variable
     ungroup() %>%
     unnest_tokens(word, text) %>%   #Unnesting in word tokens
-    inner_join(get_sentiments("bing"))  #  merging with sentiments in nrc
+    inner_join(get_sentiments("bing"))  #  merging with sentiments in bing
    
    senti_count<-senti%>% count(sentiment, index = Doc_No %/% 1, sort = FALSE) 
   
