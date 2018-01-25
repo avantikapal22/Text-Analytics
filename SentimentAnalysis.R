@@ -12,7 +12,7 @@ require(dplyr)
 
 senti_bing<- function(corpus){
   
-  textdf = data_frame(text = x) # converting text data into dataframe  
+  textdf = data_frame(text = corpus) # converting text data into dataframe  
   
   senti<-  textdf %>%
     mutate(Doc_No = row_number()) %>%   # build line num variable
@@ -31,7 +31,7 @@ senti_bing<- function(corpus){
 
 senti_nrc<- function(corpus){
   
-  textdf = data_frame(text = x) # converting text data into dataframe  
+  textdf = data_frame(text = corpus) # converting text data into dataframe  
   
   senti<-  textdf %>%
     mutate(Doc_No = row_number()) %>%   # build line num variable
