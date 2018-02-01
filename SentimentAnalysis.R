@@ -16,7 +16,7 @@ senti_bing<-function(corpus){
   textdf = data_frame(text = corpus) # converting text data into dataframe  
   
   senti<-  textdf %>%
-    mutate(Doc_No = row_number()) %>%   # build line num variable
+    dplyr::mutate(Doc_No = row_number()) %>%   # build line num variable
     ungroup() %>%
     unnest_tokens(word, text) %>%   #Unnesting in word tokens
     inner_join(get_sentiments("bing"))  #  merging with sentiments in bing
@@ -38,7 +38,7 @@ senti_nrc<-function(corpus){
   textdf = data_frame(text = corpus) # converting text data into dataframe  
   
   senti<-  textdf %>%
-    mutate(Doc_No = row_number()) %>%   # build line num variable
+    dplyr::mutate(Doc_No = row_number()) %>%   # build line num variable
     ungroup() %>%
     unnest_tokens(word, text) %>%   #Unnesting in word tokens
     inner_join(get_sentiments("nrc"))  #  merging with sentiments in nrc
