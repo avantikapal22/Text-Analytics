@@ -221,3 +221,19 @@ display_graphics <- function(dtm, #Document term matrix
   # 
   # return(out)
 } # func ends
+                             
+                             
+                             
+                             
+#Function to compute time difference from the peak time
+                             
+minutes<-function(timestamp, centroid,units= "mins"){
+  
+  # timestamp should be a "POSIXct" "POSIXt"  object
+  # centroid should be a time of the "%H:%M" format
+  center<-as.POSIXlt(centroid, tz = "", format= c("%H:%M"))
+  Difftime<-difftime( timestamp,center, units=units)
+  
+}
+                             
+                             
