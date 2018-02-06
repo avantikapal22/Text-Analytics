@@ -234,6 +234,7 @@ minutes<-function(timestamp, centroid,units= "mins"){
   center<-as.POSIXlt(centroid, tz = "", format= c("%H:%M"))
   Difftime<-difftime( timestamp,center, units=units)
   
+  return(Difftime)
 }
                              
                              
