@@ -231,7 +231,17 @@ minutes<-function(timestamp, centroid,units= "mins"){
   
   # timestamp should be a "POSIXct" "POSIXt"  object
   # centroid should be a time of the "%H:%M" format
-  center<-as.POSIXlt(centroid, tz = "", format= c("%H:%M"))
+  function(timestamp, centroid,units= "mins"){
+  
+  # timestamp should be a "POSIXct" "POSIXt"  object
+  # centroid should be a time of the "%H:%M" format
+  center<-as.POSIXlt(paste(substr(as.POSIXlt(centroid, tz = "", format= c("%H:%M")), 1, 8), "01",
+                       substr(as.POSIXlt(centroid, tz = "", format= c("%H:%M")),11,23), sep="" ))
+  Difftime<-difftime( timestamp,center, units=units)
+  
+  return(Difftime)
+}
+
   Difftime<-difftime( timestamp,center, units=units)
   
   return(Difftime)
