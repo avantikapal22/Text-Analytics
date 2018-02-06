@@ -241,10 +241,5 @@ minutes<-function(timestamp, centroid,units= "mins"){
   
   return(Difftime)
 }
-
-  Difftime<-difftime( timestamp,center, units=units)
-  
-  return(Difftime)
-}
-                             
+              
                              
