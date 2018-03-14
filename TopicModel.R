@@ -10,14 +10,23 @@ require(tidytext) || install.packages("tidytext")
 library(tidytext)
 try(require(tidyr) || install.packages("tidyr"))
 library(tidyr)
+try(require(tibble) || install.packages("tibble"))
 require(tibble)
+try(require(tm) || install.packages("tm"))
 library(tm)
+try(require(Matrix.utils) || install.packages("Matrix.utils"))
 library(Matrix.utils)
+try(require(lubridate) || install.packages("lubridate"))
 library(lubridate)
+try(require(SnowballC) || install.packages("SnowballC"))
 library(SnowballC)
+try(require(topicmodels) || install.packages("topicmodels"))
 library(topicmodels)
+try(require(reshape2) || install.packages("reshape2"))
 library(reshape2)
+try(require(e1071) || install.packages("e1071"))
 library(e1071)
+try(require(entropy) || install.packages("entropy"))
 library(entropy)
 
 
@@ -45,7 +54,9 @@ extractCo<-function(string){
 ###############################################################################################
 
 ### Sample Dataset on Reviews on Glassdoor
-data<-read.csv("/Users/avantikapal/Documents/ISB/DAM/Assignments/Final_Project/Sample1.csv", header=T, sep=",")[,-1]
+data<-read.csv("https://raw.githubusercontent.com/avantikapal22/Text-Analytics/master/Sample1.csv", 
+               header=T, sep=",")[,-1]
+# data<-read.csv("/Users/avantikapal/Documents/ISB/DAM/Assignments/Final_Project/Sample1.csv", header=T, sep=",")[,-1]
 data$year<-year(data$Date)
 data$qtr<-NA
 data$qtr[month(data$Date)<=3 &month(data$Date)>=1]<-"1"
@@ -56,7 +67,10 @@ data$qtr[month(data$Date)<=12 &month(data$Date)>9]<-"4"
 data$D1<-paste(data$year,data$qtr, sep="")
 
 ### Sample Dataset on Reviews on Glassdoor
-data1<-read.csv("/Users/avantikapal/Documents/ISB/DAM/Assignments/Final_Project/Sample2.csv", header=T, sep=",")[,-1]
+
+data1<-read.csv("https://raw.githubusercontent.com/avantikapal22/Text-Analytics/master/Sample2.csv", 
+         header=T, sep=",")[,-1]
+# data1<-read.csv("/Users/avantikapal/Documents/ISB/DAM/Assignments/Final_Project/Sample2.csv", header=T, sep=",")[,-1]
 data1$year<-year(data1$Date)
 data1$qtr<-NA
 data1$qtr[month(data1$Date)<=3 &month(data1$Date)>=1]<-"1"
@@ -72,7 +86,9 @@ co<-str_replace_all(unique(Full_Data$Company), "-", " ") %>% tolower()
 
 
 ## Human Capital Glosaary
-Glossary<-readLines("/Users/avantikapal/Documents/ISB/DAM/Assignments/Final_Project/HR Mgmt Keywords.txt")
+
+Glossary<-readLines("https://raw.githubusercontent.com/avantikapal22/Text-Analytics/master/HR%20Mgmt%20Keywords.txt")
+# Glossary<-readLines("/Users/avantikapal/Documents/ISB/DAM/Assignments/Final_Project/HR Mgmt Keywords.txt")
 g<-tolower(Glossary)
 g<-wordStem(g)
 
@@ -156,7 +172,6 @@ table(k1$topic)
 ###############################################################################################
 
 
-
 wordcloud(k1$term[k1$topic==1], k1$beta[k1$topic==1],     # words, their freqs
           scale = c(3.5, 0.5),     # range of word sizes
           10,                     # min.freq of words to consider
@@ -216,7 +231,8 @@ Company_Cultural_Index$Year<-as.numeric(sapply(Company_Cultural_Index$ID, functi
 Company_Cultural_Index$Company<-sapply(as.character(Company_Cultural_Index$ID), function(x) extractCo(x) )
 Company_Cultural_Index$Company[Company_Cultural_Index$Company=="Southwest"]<-"Southwest Airlines"
 
-Profit<-read.csv("/Users/avantikapal/Documents/ISB/DAM/Assignments/Final_Project/Qtr_Profit.csv", header=T, sep=",")
+Profit<-read.csv("https://raw.githubusercontent.com/avantikapal22/Text-Analytics/master/Qtr_Profit.csv", header=T, sep=",")
+# Profit<-read.csv("/Users/avantikapal/Documents/ISB/DAM/Assignments/Final_Project/Qtr_Profit.csv", header=T, sep=",")
 Profit_Long<- gather(Profit, Year, Profit, X20174:X20053, factor_key=TRUE)
 Profit_Long$Year<-as.numeric(sapply(Profit_Long$Year, function(x) extractD(x) ))
 
@@ -227,7 +243,7 @@ Profit_Long1<-Profit_Long1[ Profit_Long1$Company!="Bain and Company"&
 
 Combined<-merge(Profit_Long1, Company_Cultural_Index[, c("Company","Year", "Cultural_Index")],
                 by=c("Company", "Year"), all.x=T)
-write.csv(Combined, "/Users/avantikapal/Documents/ISB/DAM/Assignments/Final_Project/ProfitvsCulture.csv")
+# write.csv(Combined, "/Users/avantikapal/Documents/ISB/DAM/Assignments/Final_Project/ProfitvsCulture.csv")
 m<-na.omit(Combined)
 
 cor(m$Profit,m$Cultural_Index)
@@ -237,27 +253,50 @@ cor(m$Profit,m$Cultural_Index)
 ###############################################################################################
 
 
-
 ### Plot Profit vs cultural index
 p <- ggplot(m[m$Company=="Adobe-India",], aes(x = Year))+
     geom_line(aes(y = Profit, colour = "Profit"))+
     geom_line(aes(y = Cultural_Index, colour = "Cultural_Index"))+
     facet_wrap( ~ Company)
-    scale_y_continuous(sec.axis = sec_axis(~.*-0.486 +1.020,name = "Cultural_Index"))+
+    # scale_y_continuous(sec.axis = sec_axis(~.*-0.486 +1.020,name = "Cultural_Index"))+
     
 
 # modifying colours and theme options
 p <- p + scale_colour_manual(values = c("blue", "red"))
-p <- p + labs(y = "Air temperature [??C]",
-              x = "Date and time",
+p <- p + labs(y = "",
+              x = "Date",
               colour = "Parameter")
 p <- p + theme(legend.position = c(0.8, 0.9))
 p
 
+##
+p <- ggplot(m[m$Company=="Facebook",], aes(x = Year))+
+  geom_line(aes(y = Profit, colour = "Profit"))+
+  geom_line(aes(y = Cultural_Index, colour = "Cultural_Index"))+
+  facet_wrap( ~ Company)
+# scale_y_continuous(sec.axis = sec_axis(~.*-0.486 +1.020,name = "Cultural_Index"))+
 
-# topic_test <- ggplot(Combined, aes(x=Year))+
-#   geom_point(aes(y=Profit),color='red')+
-#   geom_point(aes(y=Actual), color='darkblue')+
-#   facet_wrap( ~ Company)+
-#   ylab("Net Profit Margin")
 
+# modifying colours and theme options
+p <- p + scale_colour_manual(values = c("blue", "red"))
+p <- p + labs(y = "",
+              x = "Date",
+              colour = "Parameter")
+p <- p + theme(legend.position = c(0.8, 0.9))
+p
+
+##
+p <- ggplot(m[m$Company=="Southwest Airlines",], aes(x = Year))+
+  geom_line(aes(y = Profit, colour = "Profit"))+
+  geom_line(aes(y = Cultural_Index, colour = "Cultural_Index"))+
+  facet_wrap( ~ Company)
+# scale_y_continuous(sec.axis = sec_axis(~.*-0.486 +1.020,name = "Cultural_Index"))+
+
+
+# modifying colours and theme options
+p <- p + scale_colour_manual(values = c("blue", "red"))
+p <- p + labs(y = "",
+              x = "Date",
+              colour = "Parameter")
+p <- p + theme(legend.position = c(0.8, 0.9))
+p

@@ -3,6 +3,7 @@
 #### LOADING LIBRARIES ######
 ###############################################################################################
 
+
 source('https://raw.githubusercontent.com/avantikapal22/Text-Analytics/master/MyFunctions.R')
 try(require(dplyr) || install.packages("dplyr"))
 library(dplyr)
@@ -10,14 +11,24 @@ require(tidytext) || install.packages("tidytext")
 library(tidytext)
 try(require(tidyr) || install.packages("tidyr"))
 library(tidyr)
+try(require(tibble) || install.packages("tibble"))
 require(tibble)
+try(require(tm) || install.packages("tm"))
 library(tm)
+try(require(Matrix.utils) || install.packages("Matrix.utils"))
 library(Matrix.utils)
+try(require(lubridate) || install.packages("lubridate"))
 library(lubridate)
+try(require(SnowballC) || install.packages("SnowballC"))
 library(SnowballC)
+try(require(topicmodels) || install.packages("topicmodels"))
 library(topicmodels)
+try(require(reshape2) || install.packages("reshape2"))
 library(reshape2)
+try(require(e1071) || install.packages("e1071"))
 library(e1071)
+try(require(entropy) || install.packages("entropy"))
+library(entropy)
 
 
 ################################################################################################
@@ -43,7 +54,9 @@ extractCo<-function(string){
 
 
 ### Sample Dataset on Reviews on Glassdoor
-data<-read.csv("/Users/avantikapal/Documents/ISB/DAM/Assignments/Final_Project/Sample1.csv", header=T, sep=",")[,-1]
+data<-read.csv("https://raw.githubusercontent.com/avantikapal22/Text-Analytics/master/Sample1.csv", 
+               header=T, sep=",")[,-1]
+# data<-read.csv("/Users/avantikapal/Documents/ISB/DAM/Assignments/Final_Project/Sample1.csv", header=T, sep=",")[,-1]
 data$year<-year(data$Date)
 data$qtr<-NA
 data$qtr[month(data$Date)<=3 &month(data$Date)>=1]<-"1"
@@ -54,7 +67,9 @@ data$qtr[month(data$Date)<=12 &month(data$Date)>9]<-"4"
 data$D1<-paste(data$year,data$qtr, sep="")
 
 ### Sample Dataset on Reviews on Glassdoor
-data1<-read.csv("/Users/avantikapal/Documents/ISB/DAM/Assignments/Final_Project/Sample2.csv", header=T, sep=",")[,-1]
+data1<-read.csv("https://raw.githubusercontent.com/avantikapal22/Text-Analytics/master/Sample2.csv", 
+               header=T, sep=",")[,-1]
+# data1<-read.csv("/Users/avantikapal/Documents/ISB/DAM/Assignments/Final_Project/Sample2.csv", header=T, sep=",")[,-1]
 data1$year<-year(data1$Date)
 data1$qtr<-NA
 data1$qtr[month(data1$Date)<=3 &month(data1$Date)>=1]<-"1"
@@ -69,7 +84,9 @@ rev<-Full_Data$Review
 co<-str_replace_all(unique(Full_Data$Company), "-", " ") %>% tolower()
 
 ## Dataset on Profits for select firms
-Profit<-read.csv("/Users/avantikapal/Documents/ISB/DAM/Assignments/Final_Project/Qtr_Profit.csv", header=T, sep=",")
+
+Profit<-read.csv("https://raw.githubusercontent.com/avantikapal22/Text-Analytics/master/Qtr_Profit.csv", header=T, sep=",")
+# Profit<-read.csv("/Users/avantikapal/Documents/ISB/DAM/Assignments/Final_Project/Qtr_Profit.csv", header=T, sep=",")
 Profit_Long<- gather(Profit, Year, Profit, X20174:X20053, factor_key=TRUE)
 Profit_Long$Year<-as.numeric(sapply(Profit_Long$Year, function(x) extractD(x) ))
 
